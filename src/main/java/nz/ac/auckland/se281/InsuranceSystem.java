@@ -15,7 +15,18 @@ public class InsuranceSystem {
     if (profileDatabase.size() == 0) {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("0", "s", ".");
     } else if (profileDatabase.size() == 1) {
-      MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "s", ":");
+      MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
+      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+          "1", (profileDatabase.get(0)).getUsername(), (profileDatabase.get(0)).getAge());
+    } else {
+      MessageCli.PRINT_DB_POLICY_COUNT.printMessage(
+          Integer.toString(profileDatabase.size()), "s", ":");
+      for (int i = 0; i < profileDatabase.size(); i++) {
+        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+            Integer.toString(i + 1),
+            (profileDatabase.get(i)).getUsername(),
+            (profileDatabase.get(i)).getAge());
+      }
     }
   }
 
