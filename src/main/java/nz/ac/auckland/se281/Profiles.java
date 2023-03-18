@@ -8,4 +8,9 @@ public class Profiles {
     username = un;
     age = a;
   }
+
+  public String getUsername() {
+    String name = username;
+    return name;
+  }
 }
