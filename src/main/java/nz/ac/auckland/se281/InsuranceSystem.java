@@ -7,12 +7,10 @@ public class InsuranceSystem {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
-  public void printDatabase() {
-    // TODO: Complete this method.
-  }
+  public void printDatabase() {}
 
   public void createNewProfile(String userName, String age) {
-    // TODO: Complete this method.
+    Profiles userProfile = new Profiles(userName, age);
   }
 
   public void loadProfile(String userName) {
