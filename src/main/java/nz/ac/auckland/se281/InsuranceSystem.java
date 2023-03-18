@@ -31,9 +31,22 @@ public class InsuranceSystem {
   }
 
   public void createNewProfile(String userName, String age) {
-    Profiles userProfile = new Profiles(userName, age);
-    profileDatabase.add(userProfile);
-    MessageCli.PROFILE_CREATED.printMessage(userName, age);
+    userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
+    int uniqueCheck = 0;
+    for (int i = 0; i < profileDatabase.size(); i++) {
+      if (userName.equals(profileDatabase.get(i).getUsername())) {
+        uniqueCheck++;
+      }
+    }
+    if (uniqueCheck != 0) {
+      MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
+    } else if (userName.length() < 3) {
+      MessageCli.INVALID_USERNAME_TOO_SHORT.printMessage(userName);
+    } else {
+      Profiles userProfile = new Profiles(userName, age);
+      profileDatabase.add(userProfile);
+      MessageCli.PROFILE_CREATED.printMessage(userName, age);
+    }
   }
 
   public void loadProfile(String userName) {
