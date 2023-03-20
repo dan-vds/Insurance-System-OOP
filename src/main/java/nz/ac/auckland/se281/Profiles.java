@@ -13,6 +13,7 @@ public class Profiles {
     String name = username;
     return name;
   }
+
   public String getAge() {
     String old = age;
     return old;
