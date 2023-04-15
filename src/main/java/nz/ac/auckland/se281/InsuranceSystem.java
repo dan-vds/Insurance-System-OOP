@@ -87,7 +87,7 @@ public class InsuranceSystem {
         toLoad.loadProfile();
         MessageCli.PROFILE_LOADED.printMessage(userName);
       } else {
-        MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(userName);
+        MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(currentLoaded.getUsername());
       }
     }
   }
