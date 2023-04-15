@@ -80,6 +80,16 @@ public class InsuranceSystem {
         toLoad = profile;
       }
     }
+    if (toLoad == null) {
+      MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(userName);
+    } else {
+      if (currentLoaded == null) {
+        toLoad.loadProfile();
+        MessageCli.PROFILE_LOADED.printMessage(userName);
+      } else {
+        MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(userName);
+      }
+    }
   }
 
   public void unloadProfile() {}
