@@ -70,12 +70,19 @@ public class InsuranceSystem {
   }
 
   public void loadProfile(String userName) {
-    // TODO: Complete this method.
+    Profiles currentLoaded = null;
+    Profiles toLoad = null;
+    for (Profiles profile : profileDatabase) {
+      if (profile.getLoaded() == true) {
+        currentLoaded = profile;
+      }
+      if (profile.getUsername() == userName) {
+        toLoad = profile;
+      }
+    }
   }
 
-  public void unloadProfile() {
-    // TODO: Complete this method.
-  }
+  public void unloadProfile() {}
 
   public void deleteProfile(String userName) {
     // TODO: Complete this method.
