@@ -32,7 +32,7 @@ public class Profiles {
 
   public void unloadProfile() {
     // Setter method to load/unload
-    this.loaded = true;
+    this.loaded = false;
   }
 
   public String getAge() {

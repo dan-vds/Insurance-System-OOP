@@ -76,7 +76,7 @@ public class InsuranceSystem {
       if (profile.getLoaded() == true) {
         currentLoaded = profile;
       }
-      if (profile.getUsername() == userName) {
+      if (profile.getUsername().equals(userName)) {
         toLoad = profile;
       }
     }
@@ -92,7 +92,14 @@ public class InsuranceSystem {
     }
   }
 
-  public void unloadProfile() {}
+  public void unloadProfile() {
+    for (Profiles profile : profileDatabase) {
+      if (profile.getLoaded() == true) {
+        profile.unloadProfile();
+        MessageCli.PROFILE_UNLOADED.printMessage(profile.getUsername());
+      }
+    }
+  }
 
   public void deleteProfile(String userName) {
     // TODO: Complete this method.
