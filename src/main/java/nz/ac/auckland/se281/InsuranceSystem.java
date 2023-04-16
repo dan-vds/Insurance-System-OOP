@@ -52,6 +52,7 @@ public class InsuranceSystem {
     userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
     // Defining checking variable to check whether the username is unique
     int uniqueCheck = 0;
+    Profiles loadedProfile = null;
     // Checking if the age is an int
     try {
       if (Integer.parseInt(age) < 0) {
@@ -68,8 +69,14 @@ public class InsuranceSystem {
         // If username is not unique, set uniqueCheck to 1
         uniqueCheck++;
       }
+      if (profileDatabase.get(i).getLoaded() == true) {
+        loadedProfile = profileDatabase.get(i);
+      }
     }
-    if (uniqueCheck != 0) {
+    if (loadedProfile != null) {
+      // If a profile is loaded, return error
+      MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(loadedProfile.getUsername());
+    } else if (uniqueCheck != 0) {
       MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
     } else if (userName.length() < 3) {
       // If username is too short, return error
@@ -113,7 +120,7 @@ public class InsuranceSystem {
       if (profile.getLoaded() == true) {
         profile.unloadProfile();
         MessageCli.PROFILE_UNLOADED.printMessage(profile.getUsername());
-        break;
+        return;
       }
     }
     MessageCli.NO_PROFILE_LOADED.printMessage();
