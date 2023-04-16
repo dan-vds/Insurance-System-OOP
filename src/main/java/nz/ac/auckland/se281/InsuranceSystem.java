@@ -18,6 +18,10 @@ public class InsuranceSystem {
     } else if (profileDatabase.size() == 1) {
       // This runs if the database has one entry
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
+      if (profileDatabase.get(0).getLoaded() == true) {
+        MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+            "***", (profileDatabase.get(0)).getUsername(), (profileDatabase.get(0)).getAge());
+      }
       MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
           "1", (profileDatabase.get(0)).getUsername(), (profileDatabase.get(0)).getAge());
     } else {
@@ -26,10 +30,18 @@ public class InsuranceSystem {
           Integer.toString(profileDatabase.size()), "s", ":");
       for (int i = 0; i < profileDatabase.size(); i++) {
         // Looping through every database entry in order and printing it
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-            Integer.toString(i + 1),
-            (profileDatabase.get(i)).getUsername(),
-            (profileDatabase.get(i)).getAge());
+        if (profileDatabase.get(i).getLoaded() == true) {
+          MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+              "***",
+              Integer.toString(i + 1),
+              (profileDatabase.get(i)).getUsername(),
+              (profileDatabase.get(i)).getAge());
+        } else {
+          MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+              Integer.toString(i + 1),
+              (profileDatabase.get(i)).getUsername(),
+              (profileDatabase.get(i)).getAge());
+        }
       }
     }
   }
@@ -70,6 +82,7 @@ public class InsuranceSystem {
   }
 
   public void loadProfile(String userName) {
+    userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
     Profiles currentLoaded = null;
     Profiles toLoad = null;
     for (Profiles profile : profileDatabase) {
