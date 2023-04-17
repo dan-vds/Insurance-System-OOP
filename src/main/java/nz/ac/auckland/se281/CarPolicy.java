@@ -7,7 +7,6 @@ public class CarPolicy extends Policy {
   private String makeAndModel;
   private String licensePlate;
   private Boolean breakdown;
-  private double basePremium = 0.0;
   private int age;
 
   public CarPolicy(
@@ -31,5 +30,21 @@ public class CarPolicy extends Policy {
     if (breakdown == true) {
       this.basePremium = this.basePremium + 80;
     }
+  }
+
+  public String getMakeAndModel() {
+    return makeAndModel;
+  }
+
+  public String getLicensePlate() {
+    return licensePlate;
+  }
+
+  public Boolean getBreakdown() {
+    return breakdown;
+  }
+
+  public double getBasePremium() {
+    return basePremium;
   }
 }
