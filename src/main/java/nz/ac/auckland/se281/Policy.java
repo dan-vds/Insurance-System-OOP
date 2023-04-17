@@ -12,4 +12,12 @@ public class Policy {
     this.sum = sum;
     this.policyID = policyID;
   }
+
+  public PolicyType getPolicyType() {
+    return type;
+  }
+
+  public int getPolicyId() {
+    return policyID;
+  }
 }
