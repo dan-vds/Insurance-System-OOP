@@ -144,6 +144,7 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
+    int sum = Integer.parseInt(options[0]);
     Profiles currentLoaded = null;
     for (Profiles profile : profileDatabase) {
       if (profile.getLoaded() == true) {
@@ -155,14 +156,17 @@ public class InsuranceSystem {
       return;
     } else {
       if (type == PolicyType.HOME) {
-        int sum = Integer.parseInt(options[0]);
         String address = options[1];
         Boolean Rental = Boolean.parseBoolean(options[2]);
         HomePolicy homePolicy = new HomePolicy(sum, address, Rental);
       } else if (type == PolicyType.CAR) {
-          CarPolicy carPolicy = new CarPolicy(Integer.parseInt(options[0]));
+        String makeAndModel = options[1];
+        String licensePlate = options[2];
+        Boolean breakdown = Boolean.parseBoolean(options[3]);
+        CarPolicy carPolicy = new CarPolicy(sum, makeAndModel, licensePlate, breakdown);
       } else if (type == PolicyType.LIFE) {
-          LifePolicy lifePolicy = new LifePolicy(Integer.parseInt(options[0]), options[1], options[2]);
+        LifePolicy lifePolicy = new LifePolicy(sum);
+      }
     }
   }
 }
