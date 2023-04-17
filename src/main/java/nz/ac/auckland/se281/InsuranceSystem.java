@@ -159,7 +159,8 @@ public class InsuranceSystem {
       if (type == PolicyType.HOME) {
         String address = options[1];
         Boolean Rental = Boolean.parseBoolean(options[2]);
-        HomePolicy homePolicy = new HomePolicy(sum, currentLoaded.getProfileId(), address, Rental);
+        HomePolicy homePolicy =
+            new HomePolicy(type, sum, currentLoaded.getProfileId(), address, Rental);
         policyDatabase.add(homePolicy);
       } else if (type == PolicyType.CAR) {
         String makeAndModel = options[1];
@@ -167,6 +168,7 @@ public class InsuranceSystem {
         Boolean breakdown = Boolean.parseBoolean(options[3]);
         CarPolicy carPolicy =
             new CarPolicy(
+                type,
                 sum,
                 currentLoaded.getProfileId(),
                 makeAndModel,
@@ -175,12 +177,24 @@ public class InsuranceSystem {
                 Integer.parseInt(currentLoaded.getAge()));
         policyDatabase.add(carPolicy);
       } else if (type == PolicyType.LIFE) {
-        if (Integer.parseInt(currentLoaded.getAge()) > 100) {
 
+        if (Integer.parseInt(currentLoaded.getAge()) > 100) {
+          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
         } else {
+          for (Policy policy : policyDatabase) {
+            if (policy.getPolicyType() == PolicyType.LIFE) {
+              if (policy.getProfileId() == currentLoaded.getProfileId()) {
+                MessageCli.CANNOT_CREATE_LIFE_POLICY.printMessage(currentLoaded.getUsername());
+                return;
+              }
+            }
+          }
           LifePolicy lifePolicy =
               new LifePolicy(
-                  sum, currentLoaded.getProfileId(), Integer.parseInt(currentLoaded.getAge()));
+                  type,
+                  sum,
+                  currentLoaded.getProfileId(),
+                  Integer.parseInt(currentLoaded.getAge()));
           policyDatabase.add(lifePolicy);
         }
       }
