@@ -158,14 +158,14 @@ public class InsuranceSystem {
       if (type == PolicyType.HOME) {
         String address = options[1];
         Boolean Rental = Boolean.parseBoolean(options[2]);
-        HomePolicy homePolicy = new HomePolicy(sum, address, Rental);
+        HomePolicy homePolicy = new HomePolicy(sum, currentLoaded.getProfileId(), address, Rental);
       } else if (type == PolicyType.CAR) {
         String makeAndModel = options[1];
         String licensePlate = options[2];
         Boolean breakdown = Boolean.parseBoolean(options[3]);
-        CarPolicy carPolicy = new CarPolicy(sum, makeAndModel, licensePlate, breakdown);
+        CarPolicy carPolicy = new CarPolicy(sum, currentLoaded.getProfileId(), makeAndModel, licensePlate, breakdown);
       } else if (type == PolicyType.LIFE) {
-        LifePolicy lifePolicy = new LifePolicy(sum);
+        LifePolicy lifePolicy = new LifePolicy(sum, currentLoaded.getProfileId());
       }
     }
   }

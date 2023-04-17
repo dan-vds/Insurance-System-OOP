@@ -6,8 +6,9 @@ public class CarPolicy extends Policy {
   private String licensePlate;
   private Boolean breakdown;
 
-  public CarPolicy(int sum, String makeAndModel, String licensePlate, Boolean breakdown) {
-    super(sum);
+  public CarPolicy(
+      int sum, int policyId, String makeAndModel, String licensePlate, Boolean breakdown) {
+    super(sum, policyId);
     this.makeAndModel = makeAndModel;
     this.licensePlate = licensePlate;
     this.breakdown = breakdown;

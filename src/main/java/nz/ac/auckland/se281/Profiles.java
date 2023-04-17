@@ -5,7 +5,7 @@ public class Profiles {
   private String username;
   private String age;
   private Boolean loaded;
-  private int itemID;
+  private int profileId;
 
   private static int nextID = 0;
 
@@ -14,7 +14,7 @@ public class Profiles {
     loaded = false;
     username = un;
     age = a;
-    this.itemID = nextID++;
+    this.profileId = nextID++;
   }
 
   public String getUsername() {
@@ -43,5 +43,11 @@ public class Profiles {
     // Getter method to give access to age
     String old = age;
     return old;
+  }
+
+  public int getProfileId() {
+    // Getter method to give access to profileId
+    int id = profileId;
+    return id;
   }
 }
