@@ -5,12 +5,16 @@ public class Profiles {
   private String username;
   private String age;
   private Boolean loaded;
+  private int itemID;
+
+  private static int nextID = 0;
 
   public Profiles(String un, String a) {
     // Defining constructor
     loaded = false;
     username = un;
     age = a;
+    this.itemID = nextID++;
   }
 
   public String getUsername() {
