@@ -6,6 +6,7 @@ import nz.ac.auckland.se281.Main.PolicyType;
 public class InsuranceSystem {
 
   private ArrayList<Profiles> profileDatabase = new ArrayList<>();
+  private ArrayList<Policy> policyDatabase = new ArrayList<>();
 
   public InsuranceSystem() {
     // Only this constructor can be used (if you need to initialise fields).
@@ -159,13 +160,29 @@ public class InsuranceSystem {
         String address = options[1];
         Boolean Rental = Boolean.parseBoolean(options[2]);
         HomePolicy homePolicy = new HomePolicy(sum, currentLoaded.getProfileId(), address, Rental);
+        policyDatabase.add(homePolicy);
       } else if (type == PolicyType.CAR) {
         String makeAndModel = options[1];
         String licensePlate = options[2];
         Boolean breakdown = Boolean.parseBoolean(options[3]);
-        CarPolicy carPolicy = new CarPolicy(sum, currentLoaded.getProfileId(), makeAndModel, licensePlate, breakdown);
+        CarPolicy carPolicy =
+            new CarPolicy(
+                sum,
+                currentLoaded.getProfileId(),
+                makeAndModel,
+                licensePlate,
+                breakdown,
+                Integer.parseInt(currentLoaded.getAge()));
+        policyDatabase.add(carPolicy);
       } else if (type == PolicyType.LIFE) {
-        LifePolicy lifePolicy = new LifePolicy(sum, currentLoaded.getProfileId());
+        if (Integer.parseInt(currentLoaded.getAge()) > 100) {
+
+        } else {
+          LifePolicy lifePolicy =
+              new LifePolicy(
+                  sum, currentLoaded.getProfileId(), Integer.parseInt(currentLoaded.getAge()));
+          policyDatabase.add(lifePolicy);
+        }
       }
     }
   }
