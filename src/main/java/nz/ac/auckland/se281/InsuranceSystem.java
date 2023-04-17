@@ -144,6 +144,6 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
-    // TODO: Complete this method.
+    Policy policy = new Policy(Integer.parseInt(options[0]));
   }
 }
