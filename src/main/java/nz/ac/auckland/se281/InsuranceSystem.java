@@ -144,6 +144,19 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
+    Profiles currentLoaded = null;
+    for (Profiles profile : profileDatabase) {
+      if (profile.getLoaded() == true) {
+        currentLoaded = profile;
+      }
+    }
+    if (currentLoaded == null) {
+      MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
+      return;
+    } else {
+
+    }
+
     Policy policy = new Policy(Integer.parseInt(options[0]));
   }
 }
