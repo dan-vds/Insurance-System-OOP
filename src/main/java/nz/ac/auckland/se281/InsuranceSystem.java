@@ -154,9 +154,12 @@ public class InsuranceSystem {
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
       return;
     } else {
-
+      if (type == PolicyType.HOME) {
+          HomePolicy homePolicy = new HomePolicy(Integer.parseInt(options[0]));
+      } else if (type == PolicyType.CAR) {
+          CarPolicy carPolicy = new CarPolicy(Integer.parseInt(options[0]));
+      } else if (type == PolicyType.LIFE) {
+          LifePolicy lifePolicy = new LifePolicy(Integer.parseInt(options[0]));
     }
-
-    Policy policy = new Policy(Integer.parseInt(options[0]));
   }
 }
