@@ -12,6 +12,19 @@ public class InsuranceSystem {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
+  public void printPolicies(int profileId) {
+    for (Policy policy : policyDatabase) {
+      if (policy.getPolicyId() == profileId) {
+        if (policy.getPolicyType() == PolicyType.CAR) {
+          MessageCli.PRINT_DB_CAR_POLICY(policy.getMakeAndModel(), policy.getSum(), )
+      }
+    }
+  }
+
+  // PRINT_DB_CAR_POLICY("\tCar Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
+  // PRINT_DB_HOME_POLICY("\tHome Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
+  // PRINT_DB_LIFE_POLICY("\tLife Policy (Sum Insured: $%s, Premium: $%s -> $%s)")
+
   public void printDatabase() {
     // Checking if the database has no entries
     if (profileDatabase.size() == 0) {

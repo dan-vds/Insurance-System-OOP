@@ -17,4 +17,8 @@ public class HomePolicy extends Policy {
       this.basePremium = sum * 0.02;
     }
   }
+
+  public String getAddress() {
+    return address;
+  }
 }

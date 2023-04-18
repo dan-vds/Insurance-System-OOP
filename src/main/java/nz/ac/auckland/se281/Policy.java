@@ -21,4 +21,12 @@ public class Policy {
   public int getPolicyId() {
     return policyID;
   }
+
+  public String getSum() {
+    return String.valueOf(sum);
+  }
+
+  public String getBasePremium() {
+    return String.valueOf(basePremium);
+  }
 }
