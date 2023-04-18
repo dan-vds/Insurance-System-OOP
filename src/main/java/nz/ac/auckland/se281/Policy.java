@@ -27,7 +27,7 @@ public class Policy {
     return sum;
   }
 
-  public String getBasePremium() {
-    return String.valueOf(basePremium);
+  public int getBasePremium() {
+    return (int) basePremium;
   }
 }

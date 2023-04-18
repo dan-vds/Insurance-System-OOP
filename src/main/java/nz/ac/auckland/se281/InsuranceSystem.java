@@ -16,7 +16,7 @@ public class InsuranceSystem {
     int totalCost = 0;
     for (Policy policy : policyDatabase) {
       if (policy.getPolicyId() == profileId) {
-        totalCost += policy.getSum();
+        totalCost += policy.getBasePremium();
       }
     }
     return totalCost;
@@ -29,17 +29,17 @@ public class InsuranceSystem {
           MessageCli.PRINT_DB_CAR_POLICY.printMessage(
               ((CarPolicy) policy).getMakeAndModel(),
               String.valueOf(policy.getSum()),
-              policy.getBasePremium(),
-              policy.getBasePremium());
+              String.valueOf(policy.getBasePremium()),
+              "");
         } else if (policy.getPolicyType() == PolicyType.HOME) {
           MessageCli.PRINT_DB_HOME_POLICY.printMessage(
               ((HomePolicy) policy).getAddress(),
               String.valueOf(policy.getSum()),
-              policy.getBasePremium(),
-              policy.getBasePremium());
+              String.valueOf(policy.getBasePremium()),
+              "");
         } else if (policy.getPolicyType() == PolicyType.LIFE) {
           MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
-              String.valueOf(policy.getSum()), policy.getBasePremium(), policy.getBasePremium());
+              String.valueOf(policy.getSum()), String.valueOf(policy.getBasePremium()), "");
         }
       }
     }
@@ -64,7 +64,7 @@ public class InsuranceSystem {
             (profileDatabase.get(0)).getAge(),
             profileDatabase.get(0).getPolicyCount(),
             "ies",
-            String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId()))););
+            String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
       } else {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
