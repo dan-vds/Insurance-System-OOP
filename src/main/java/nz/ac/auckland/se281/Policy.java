@@ -8,6 +8,7 @@ public class Policy {
   private PolicyType type;
   protected double basePremium = 0.0;
   protected int totalCost = 0;
+  protected double discountPremium = 0.0;
 
   public Policy(PolicyType type, int sum, int policyID) {
     this.type = type;

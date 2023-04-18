@@ -12,11 +12,32 @@ public class InsuranceSystem {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
+  public Profiles getProfileFromID(int profileId) {
+    for (Profiles profile : profileDatabase) {
+      if (profile.getProfileId() == profileId) {
+        return profile;
+      }
+    }
+    return null;
+  }
+
+  public int getDiscountedPremium(int profileId, Policy policy) {
+    int discountedPremium = (int) policy.getBasePremium();
+    Profiles profile = getProfileFromID(profileId);
+    if (profile.getPolicyCount() == 2) {
+      discountedPremium = (int) (policy.getBasePremium() * 0.9);
+    }
+    if (profile.getPolicyCount() >= 3) {
+      discountedPremium = (int) (policy.getBasePremium() * 0.8);
+    }
+    return discountedPremium;
+  }
+
   public int getTotalCost(int profileId) {
     int totalCost = 0;
     for (Policy policy : policyDatabase) {
       if (policy.getPolicyId() == profileId) {
-        totalCost += policy.getBasePremium();
+        totalCost += getDiscountedPremium(profileId, policy);
       }
     }
     return totalCost;
@@ -30,16 +51,18 @@ public class InsuranceSystem {
               ((CarPolicy) policy).getMakeAndModel(),
               String.valueOf(policy.getSum()),
               String.valueOf(policy.getBasePremium()),
-              "");
+              String.valueOf(getDiscountedPremium(profileId, policy)));
         } else if (policy.getPolicyType() == PolicyType.HOME) {
           MessageCli.PRINT_DB_HOME_POLICY.printMessage(
               ((HomePolicy) policy).getAddress(),
               String.valueOf(policy.getSum()),
               String.valueOf(policy.getBasePremium()),
-              "");
+              String.valueOf(getDiscountedPremium(profileId, policy)));
         } else if (policy.getPolicyType() == PolicyType.LIFE) {
           MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
-              String.valueOf(policy.getSum()), String.valueOf(policy.getBasePremium()), "");
+              String.valueOf(policy.getSum()),
+              String.valueOf(policy.getBasePremium()),
+              String.valueOf(getDiscountedPremium(profileId, policy)));
         }
       }
     }
@@ -62,7 +85,7 @@ public class InsuranceSystem {
             "1",
             (profileDatabase.get(0)).getUsername(),
             (profileDatabase.get(0)).getAge(),
-            profileDatabase.get(0).getPolicyCount(),
+            String.valueOf(profileDatabase.get(0).getPolicyCount()),
             "ies",
             String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
@@ -72,7 +95,7 @@ public class InsuranceSystem {
             "1",
             (profileDatabase.get(0)).getUsername(),
             (profileDatabase.get(0)).getAge(),
-            profileDatabase.get(0).getPolicyCount(),
+            String.valueOf(profileDatabase.get(0).getPolicyCount()),
             "ies",
             String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
@@ -89,7 +112,7 @@ public class InsuranceSystem {
               Integer.toString(i + 1),
               (profileDatabase.get(i)).getUsername(),
               (profileDatabase.get(i)).getAge(),
-              profileDatabase.get(i).getPolicyCount(),
+              String.valueOf(profileDatabase.get(i).getPolicyCount()),
               "ies",
               String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
           printPolicies(profileDatabase.get(i).getProfileId());
@@ -99,7 +122,7 @@ public class InsuranceSystem {
               Integer.toString(i + 1),
               (profileDatabase.get(i)).getUsername(),
               (profileDatabase.get(i)).getAge(),
-              profileDatabase.get(i).getPolicyCount(),
+              String.valueOf(profileDatabase.get(i).getPolicyCount()),
               "ies",
               String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
           printPolicies(profileDatabase.get(i).getProfileId());
@@ -218,54 +241,57 @@ public class InsuranceSystem {
     } else {
       if (type == PolicyType.HOME) {
         String address = options[1];
-        Boolean Rental = Boolean.parseBoolean(options[2]);
-        HomePolicy homePolicy =
-            new HomePolicy(type, sum, currentLoaded.getProfileId(), address, Rental);
-        MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
-        policyDatabase.add(homePolicy);
-        currentLoaded.addPolicy();
-      } else if (type == PolicyType.CAR) {
-        String makeAndModel = options[1];
-        String licensePlate = options[2];
-        Boolean breakdown = false;
-        if (options[3].equals("yes")) {
-          breakdown = true;
-        }
-        CarPolicy carPolicy =
-            new CarPolicy(
-                type,
-                sum,
-                currentLoaded.getProfileId(),
-                makeAndModel,
-                licensePlate,
-                breakdown,
-                Integer.parseInt(currentLoaded.getAge()));
-        MessageCli.NEW_POLICY_CREATED.printMessage("car", currentLoaded.getUsername());
-        policyDatabase.add(carPolicy);
-        currentLoaded.addPolicy();
-      } else if (type == PolicyType.LIFE) {
-
-        if (Integer.parseInt(currentLoaded.getAge()) > 100) {
-          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
-          return;
-        } else {
-          for (Policy policy : policyDatabase) {
-            if (policy.getPolicyType() == PolicyType.LIFE) {
-              if (policy.getPolicyId() == currentLoaded.getProfileId()) {
-                MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentLoaded.getUsername());
-                return;
-              }
-            }
+        Boolean rental = false;
+        if (options[2].equals("yes")) {
+          rental = true;
+          HomePolicy homePolicy =
+              new HomePolicy(type, sum, currentLoaded.getProfileId(), address, rental);
+          MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
+          policyDatabase.add(homePolicy);
+          currentLoaded.addPolicy();
+        } else if (type == PolicyType.CAR) {
+          String makeAndModel = options[1];
+          String licensePlate = options[2];
+          Boolean breakdown = false;
+          if (options[3].equals("yes")) {
+            breakdown = true;
           }
-          LifePolicy lifePolicy =
-              new LifePolicy(
+          CarPolicy carPolicy =
+              new CarPolicy(
                   type,
                   sum,
                   currentLoaded.getProfileId(),
+                  makeAndModel,
+                  licensePlate,
+                  breakdown,
                   Integer.parseInt(currentLoaded.getAge()));
-          MessageCli.NEW_POLICY_CREATED.printMessage("life", currentLoaded.getUsername());
+          MessageCli.NEW_POLICY_CREATED.printMessage("car", currentLoaded.getUsername());
+          policyDatabase.add(carPolicy);
           currentLoaded.addPolicy();
-          policyDatabase.add(lifePolicy);
+        } else if (type == PolicyType.LIFE) {
+
+          if (Integer.parseInt(currentLoaded.getAge()) > 100) {
+            MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
+            return;
+          } else {
+            for (Policy policy : policyDatabase) {
+              if (policy.getPolicyType() == PolicyType.LIFE) {
+                if (policy.getPolicyId() == currentLoaded.getProfileId()) {
+                  MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentLoaded.getUsername());
+                  return;
+                }
+              }
+            }
+            LifePolicy lifePolicy =
+                new LifePolicy(
+                    type,
+                    sum,
+                    currentLoaded.getProfileId(),
+                    Integer.parseInt(currentLoaded.getAge()));
+            MessageCli.NEW_POLICY_CREATED.printMessage("life", currentLoaded.getUsername());
+            currentLoaded.addPolicy();
+            policyDatabase.add(lifePolicy);
+          }
         }
       }
     }

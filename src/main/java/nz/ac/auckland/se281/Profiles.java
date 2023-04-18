@@ -57,7 +57,7 @@ public class Profiles {
     this.policyCount++;
   }
 
-  public String getPolicyCount() {
-    return String.valueOf(policyCount);
+  public int getPolicyCount() {
+    return policyCount;
   }
 }
