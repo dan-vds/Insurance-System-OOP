@@ -12,24 +12,34 @@ public class InsuranceSystem {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
+  public int getTotalCost(int profileId) {
+    int totalCost = 0;
+    for (Policy policy : policyDatabase) {
+      if (policy.getPolicyId() == profileId) {
+        totalCost += policy.getSum();
+      }
+    }
+    return totalCost;
+  }
+
   public void printPolicies(int profileId) {
     for (Policy policy : policyDatabase) {
       if (policy.getPolicyId() == profileId) {
         if (policy.getPolicyType() == PolicyType.CAR) {
           MessageCli.PRINT_DB_CAR_POLICY.printMessage(
               ((CarPolicy) policy).getMakeAndModel(),
-              policy.getSum(),
+              String.valueOf(policy.getSum()),
               policy.getBasePremium(),
               policy.getBasePremium());
         } else if (policy.getPolicyType() == PolicyType.HOME) {
           MessageCli.PRINT_DB_HOME_POLICY.printMessage(
               ((HomePolicy) policy).getAddress(),
-              policy.getSum(),
+              String.valueOf(policy.getSum()),
               policy.getBasePremium(),
               policy.getBasePremium());
         } else if (policy.getPolicyType() == PolicyType.LIFE) {
           MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
-              policy.getSum(), policy.getBasePremium(), policy.getBasePremium());
+              String.valueOf(policy.getSum()), policy.getBasePremium(), policy.getBasePremium());
         }
       }
     }
@@ -54,7 +64,7 @@ public class InsuranceSystem {
             (profileDatabase.get(0)).getAge(),
             profileDatabase.get(0).getPolicyCount(),
             "ies",
-            "0");
+            String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId()))););
         printPolicies(profileDatabase.get(0).getProfileId());
       } else {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
@@ -64,7 +74,7 @@ public class InsuranceSystem {
             (profileDatabase.get(0)).getAge(),
             profileDatabase.get(0).getPolicyCount(),
             "ies",
-            "0");
+            String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
       }
     } else {
@@ -81,8 +91,8 @@ public class InsuranceSystem {
               (profileDatabase.get(i)).getAge(),
               profileDatabase.get(i).getPolicyCount(),
               "ies",
-              "0");
-          printPolicies(profileDatabase.get(0).getProfileId());
+              String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
+          printPolicies(profileDatabase.get(i).getProfileId());
         } else {
           MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
               "",
@@ -91,8 +101,8 @@ public class InsuranceSystem {
               (profileDatabase.get(i)).getAge(),
               profileDatabase.get(i).getPolicyCount(),
               "ies",
-              "0");
-          printPolicies(profileDatabase.get(0).getProfileId());
+              String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
+          printPolicies(profileDatabase.get(i).getProfileId());
         }
       }
     }

@@ -29,7 +29,6 @@ public class CarPolicy extends Policy {
     if (breakdown == true) {
       this.basePremium = this.basePremium + 80;
     }
-    totalCost += (int) this.basePremium;
   }
 
   public String getMakeAndModel() {

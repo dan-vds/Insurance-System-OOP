@@ -23,8 +23,8 @@ public class Policy {
     return policyID;
   }
 
-  public String getSum() {
-    return String.valueOf(sum);
+  public int getSum() {
+    return sum;
   }
 
   public String getBasePremium() {
