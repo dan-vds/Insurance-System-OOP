@@ -6,6 +6,6 @@ public class LifePolicy extends Policy {
 
   public LifePolicy(PolicyType type, int sum, int policyId, int age) {
     super(type, sum, policyId);
-    this.basePremium = (1 + (age / 100)) * sum;
+    this.basePremium = (1 + ((double) age / 100)) / 100 * sum;
   }
 }

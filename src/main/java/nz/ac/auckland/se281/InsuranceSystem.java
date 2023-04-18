@@ -79,6 +79,10 @@ public class InsuranceSystem {
     } else if (profileDatabase.size() == 1) {
       // This runs if the database has one entry
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
+      String plural = "ies";
+      if (profileDatabase.get(0).getPolicyCount() == 1) {
+        plural = "y";
+      }
       if (profileDatabase.get(0).getLoaded() == true) {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
             "*** ",
@@ -86,7 +90,7 @@ public class InsuranceSystem {
             (profileDatabase.get(0)).getUsername(),
             (profileDatabase.get(0)).getAge(),
             String.valueOf(profileDatabase.get(0).getPolicyCount()),
-            "ies",
+            plural,
             String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
       } else {
@@ -96,15 +100,19 @@ public class InsuranceSystem {
             (profileDatabase.get(0)).getUsername(),
             (profileDatabase.get(0)).getAge(),
             String.valueOf(profileDatabase.get(0).getPolicyCount()),
-            "ies",
+            plural,
             String.valueOf(getTotalCost(profileDatabase.get(0).getProfileId())));
         printPolicies(profileDatabase.get(0).getProfileId());
       }
     } else {
-      // This runs if the databse has more than one entry
+      // This runs if the databsehas more than one entry
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage(
           Integer.toString(profileDatabase.size()), "s", ":");
       for (int i = 0; i < profileDatabase.size(); i++) {
+        String plural = "ies";
+        if (profileDatabase.get(i).getPolicyCount() == 1) {
+          plural = "y";
+        }
         // Looping through every database entry in order and printing it
         if (profileDatabase.get(i).getLoaded() == true) {
           MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
@@ -113,7 +121,7 @@ public class InsuranceSystem {
               (profileDatabase.get(i)).getUsername(),
               (profileDatabase.get(i)).getAge(),
               String.valueOf(profileDatabase.get(i).getPolicyCount()),
-              "ies",
+              plural,
               String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
           printPolicies(profileDatabase.get(i).getProfileId());
         } else {
@@ -123,7 +131,7 @@ public class InsuranceSystem {
               (profileDatabase.get(i)).getUsername(),
               (profileDatabase.get(i)).getAge(),
               String.valueOf(profileDatabase.get(i).getPolicyCount()),
-              "ies",
+              plural,
               String.valueOf(getTotalCost(profileDatabase.get(i).getProfileId())));
           printPolicies(profileDatabase.get(i).getProfileId());
         }
@@ -244,54 +252,54 @@ public class InsuranceSystem {
         Boolean rental = false;
         if (options[2].equals("yes")) {
           rental = true;
-          HomePolicy homePolicy =
-              new HomePolicy(type, sum, currentLoaded.getProfileId(), address, rental);
-          MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
-          policyDatabase.add(homePolicy);
-          currentLoaded.addPolicy();
-        } else if (type == PolicyType.CAR) {
-          String makeAndModel = options[1];
-          String licensePlate = options[2];
-          Boolean breakdown = false;
-          if (options[3].equals("yes")) {
-            breakdown = true;
+        }
+        HomePolicy homePolicy =
+            new HomePolicy(type, sum, currentLoaded.getProfileId(), address, rental);
+        MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
+        policyDatabase.add(homePolicy);
+        currentLoaded.addPolicy();
+      } else if (type == PolicyType.CAR) {
+        String makeAndModel = options[1];
+        String licensePlate = options[2];
+        Boolean breakdown = false;
+        if (options[3].equals("yes")) {
+          breakdown = true;
+        }
+        CarPolicy carPolicy =
+            new CarPolicy(
+                type,
+                sum,
+                currentLoaded.getProfileId(),
+                makeAndModel,
+                licensePlate,
+                breakdown,
+                Integer.parseInt(currentLoaded.getAge()));
+        MessageCli.NEW_POLICY_CREATED.printMessage("car", currentLoaded.getUsername());
+        policyDatabase.add(carPolicy);
+        currentLoaded.addPolicy();
+      } else if (type == PolicyType.LIFE) {
+
+        if (Integer.parseInt(currentLoaded.getAge()) > 100) {
+          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
+          return;
+        } else {
+          for (Policy policy : policyDatabase) {
+            if (policy.getPolicyType() == PolicyType.LIFE) {
+              if (policy.getPolicyId() == currentLoaded.getProfileId()) {
+                MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentLoaded.getUsername());
+                return;
+              }
+            }
           }
-          CarPolicy carPolicy =
-              new CarPolicy(
+          LifePolicy lifePolicy =
+              new LifePolicy(
                   type,
                   sum,
                   currentLoaded.getProfileId(),
-                  makeAndModel,
-                  licensePlate,
-                  breakdown,
                   Integer.parseInt(currentLoaded.getAge()));
-          MessageCli.NEW_POLICY_CREATED.printMessage("car", currentLoaded.getUsername());
-          policyDatabase.add(carPolicy);
+          MessageCli.NEW_POLICY_CREATED.printMessage("life", currentLoaded.getUsername());
           currentLoaded.addPolicy();
-        } else if (type == PolicyType.LIFE) {
-
-          if (Integer.parseInt(currentLoaded.getAge()) > 100) {
-            MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
-            return;
-          } else {
-            for (Policy policy : policyDatabase) {
-              if (policy.getPolicyType() == PolicyType.LIFE) {
-                if (policy.getPolicyId() == currentLoaded.getProfileId()) {
-                  MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(currentLoaded.getUsername());
-                  return;
-                }
-              }
-            }
-            LifePolicy lifePolicy =
-                new LifePolicy(
-                    type,
-                    sum,
-                    currentLoaded.getProfileId(),
-                    Integer.parseInt(currentLoaded.getAge()));
-            MessageCli.NEW_POLICY_CREATED.printMessage("life", currentLoaded.getUsername());
-            currentLoaded.addPolicy();
-            policyDatabase.add(lifePolicy);
-          }
+          policyDatabase.add(lifePolicy);
         }
       }
     }
