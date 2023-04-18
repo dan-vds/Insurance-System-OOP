@@ -16,9 +16,33 @@ public class InsuranceSystem {
     for (Policy policy : policyDatabase) {
       if (policy.getPolicyId() == profileId) {
         if (policy.getPolicyType() == PolicyType.CAR) {
-          MessageCli.PRINT_DB_CAR_POLICY(policy.getMakeAndModel(), policy.getSum(), )
+          MessageCli.PRINT_DB_CAR_POLICY.printMessage(
+              ((CarPolicy) policy).getMakeAndModel(),
+              policy.getSum(),
+              policy.getBasePremium(),
+              policy.getBasePremium());
+        } else if (policy.getPolicyType() == PolicyType.HOME) {
+          MessageCli.PRINT_DB_HOME_POLICY.printMessage(
+              ((HomePolicy) policy).getAddress(),
+              policy.getSum(),
+              policy.getBasePremium(),
+              policy.getBasePremium());
+        } else if (policy.getPolicyType() == PolicyType.LIFE) {
+          MessageCli.PRINT_DB_LIFE_POLICY.printMessage(
+              policy.getSum(), policy.getBasePremium(), policy.getBasePremium());
+        }
       }
     }
+  }
+
+  public int countPolicies(int profileId) {
+    int count = 0;
+    for (Policy policy : policyDatabase) {
+      if (policy.getPolicyId() == profileId) {
+        count++;
+      }
+    }
+    return count;
   }
 
   // PRINT_DB_CAR_POLICY("\tCar Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
