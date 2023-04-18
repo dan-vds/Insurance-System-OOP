@@ -47,11 +47,23 @@ public class InsuranceSystem {
       // This runs if the database has one entry
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage("1", "", ":");
       if (profileDatabase.get(0).getLoaded() == true) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
-            "*** ", "1", (profileDatabase.get(0)).getUsername(), (profileDatabase.get(0)).getAge());
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            "*** ",
+            "1",
+            (profileDatabase.get(0)).getUsername(),
+            (profileDatabase.get(0)).getAge(),
+            profileDatabase.get(0).getPolicyCount(),
+            "ies",
+            "0");
       } else {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
-            "1", (profileDatabase.get(0)).getUsername(), (profileDatabase.get(0)).getAge());
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            "",
+            "1",
+            (profileDatabase.get(0)).getUsername(),
+            (profileDatabase.get(0)).getAge(),
+            profileDatabase.get(0).getPolicyCount(),
+            "ies",
+            "0");
       }
     } else {
       // This runs if the databse has more than one entry
