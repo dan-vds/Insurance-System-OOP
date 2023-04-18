@@ -35,16 +35,6 @@ public class InsuranceSystem {
     }
   }
 
-  public int countPolicies(int profileId) {
-    int count = 0;
-    for (Policy policy : policyDatabase) {
-      if (policy.getPolicyId() == profileId) {
-        count++;
-      }
-    }
-    return count;
-  }
-
   // PRINT_DB_CAR_POLICY("\tCar Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
   // PRINT_DB_HOME_POLICY("\tHome Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
   // PRINT_DB_LIFE_POLICY("\tLife Policy (Sum Insured: $%s, Premium: $%s -> $%s)")
@@ -200,6 +190,7 @@ public class InsuranceSystem {
             new HomePolicy(type, sum, currentLoaded.getProfileId(), address, Rental);
         MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
         policyDatabase.add(homePolicy);
+        currentLoaded.addPolicy();
       } else if (type == PolicyType.CAR) {
         String makeAndModel = options[1];
         String licensePlate = options[2];
@@ -215,6 +206,7 @@ public class InsuranceSystem {
                 Integer.parseInt(currentLoaded.getAge()));
         MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
         policyDatabase.add(carPolicy);
+        currentLoaded.addPolicy();
       } else if (type == PolicyType.LIFE) {
 
         if (Integer.parseInt(currentLoaded.getAge()) > 100) {
@@ -236,6 +228,7 @@ public class InsuranceSystem {
                   currentLoaded.getProfileId(),
                   Integer.parseInt(currentLoaded.getAge()));
           MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
+          currentLoaded.addPolicy();
           policyDatabase.add(lifePolicy);
         }
       }

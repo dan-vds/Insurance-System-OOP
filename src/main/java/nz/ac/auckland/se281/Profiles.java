@@ -6,6 +6,7 @@ public class Profiles {
   private String age;
   private Boolean loaded;
   private int profileId;
+  private int policyCount;
 
   private static int nextID = 0;
 
@@ -15,6 +16,7 @@ public class Profiles {
     username = un;
     age = a;
     this.profileId = nextID++;
+    this.policyCount = 0;
   }
 
   public String getUsername() {
@@ -49,5 +51,13 @@ public class Profiles {
     // Getter method to give access to profileId
     int id = profileId;
     return id;
+  }
+
+  public void addPolicy() {
+    this.policyCount++;
+  }
+
+  public int getPolicyCount() {
+    return policyCount;
   }
 }
