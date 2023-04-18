@@ -20,6 +20,7 @@ public class CarPolicy extends Policy {
     this.makeAndModel = makeAndModel;
     this.licensePlate = licensePlate;
     this.breakdown = breakdown;
+
     if (age < 25) {
       this.basePremium = sum * 0.15;
     } else {
@@ -28,6 +29,7 @@ public class CarPolicy extends Policy {
     if (breakdown == true) {
       this.basePremium = this.basePremium + 80;
     }
+    totalCost += (int) this.basePremium;
   }
 
   public String getMakeAndModel() {

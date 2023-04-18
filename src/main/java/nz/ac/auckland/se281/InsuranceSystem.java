@@ -55,6 +55,7 @@ public class InsuranceSystem {
             profileDatabase.get(0).getPolicyCount(),
             "ies",
             "0");
+        printPolicies(profileDatabase.get(0).getProfileId());
       } else {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
             "",
@@ -64,6 +65,7 @@ public class InsuranceSystem {
             profileDatabase.get(0).getPolicyCount(),
             "ies",
             "0");
+        printPolicies(profileDatabase.get(0).getProfileId());
       }
     } else {
       // This runs if the databse has more than one entry
@@ -72,16 +74,25 @@ public class InsuranceSystem {
       for (int i = 0; i < profileDatabase.size(); i++) {
         // Looping through every database entry in order and printing it
         if (profileDatabase.get(i).getLoaded() == true) {
-          MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+          MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
               "*** ",
               Integer.toString(i + 1),
               (profileDatabase.get(i)).getUsername(),
-              (profileDatabase.get(i)).getAge());
+              (profileDatabase.get(i)).getAge(),
+              profileDatabase.get(i).getPolicyCount(),
+              "ies",
+              "0");
+          printPolicies(profileDatabase.get(0).getProfileId());
         } else {
-          MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(
+          MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+              "",
               Integer.toString(i + 1),
               (profileDatabase.get(i)).getUsername(),
-              (profileDatabase.get(i)).getAge());
+              (profileDatabase.get(i)).getAge(),
+              profileDatabase.get(i).getPolicyCount(),
+              "ies",
+              "0");
+          printPolicies(profileDatabase.get(0).getProfileId());
         }
       }
     }
@@ -206,7 +217,10 @@ public class InsuranceSystem {
       } else if (type == PolicyType.CAR) {
         String makeAndModel = options[1];
         String licensePlate = options[2];
-        Boolean breakdown = Boolean.parseBoolean(options[3]);
+        Boolean breakdown = false;
+        if (options[3].equals("yes")) {
+          breakdown = true;
+        }
         CarPolicy carPolicy =
             new CarPolicy(
                 type,
@@ -216,7 +230,7 @@ public class InsuranceSystem {
                 licensePlate,
                 breakdown,
                 Integer.parseInt(currentLoaded.getAge()));
-        MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
+        MessageCli.NEW_POLICY_CREATED.printMessage("car", currentLoaded.getUsername());
         policyDatabase.add(carPolicy);
         currentLoaded.addPolicy();
       } else if (type == PolicyType.LIFE) {
@@ -239,7 +253,7 @@ public class InsuranceSystem {
                   sum,
                   currentLoaded.getProfileId(),
                   Integer.parseInt(currentLoaded.getAge()));
-          MessageCli.NEW_POLICY_CREATED.printMessage("home", currentLoaded.getUsername());
+          MessageCli.NEW_POLICY_CREATED.printMessage("life", currentLoaded.getUsername());
           currentLoaded.addPolicy();
           policyDatabase.add(lifePolicy);
         }
