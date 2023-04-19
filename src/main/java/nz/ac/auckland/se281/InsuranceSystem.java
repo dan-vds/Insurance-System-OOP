@@ -12,6 +12,7 @@ public class InsuranceSystem {
     // Only this constructor can be used (if you need to initialise fields).
   }
 
+  // define method to get the profile instance from the ID alone
   public Profiles getProfileFromID(int profileId) {
     for (Profiles profile : profileDatabase) {
       if (profile.getProfileId() == profileId) {
@@ -21,6 +22,7 @@ public class InsuranceSystem {
     return null;
   }
 
+  // define method to apply the discounts to peoples premiums
   public int getDiscountedPremium(int profileId, Policy policy) {
     int discountedPremium = (int) policy.getBasePremium();
     Profiles profile = getProfileFromID(profileId);
@@ -33,6 +35,7 @@ public class InsuranceSystem {
     return discountedPremium;
   }
 
+  // define method to caluculate the total cost of all policies for a given profile
   public int getTotalCost(int profileId) {
     int totalCost = 0;
     for (Policy policy : policyDatabase) {
@@ -43,6 +46,7 @@ public class InsuranceSystem {
     return totalCost;
   }
 
+  // define method which prints all of the policies for a particular person
   public void printPolicies(int profileId) {
     for (Policy policy : policyDatabase) {
       if (policy.getPolicyId() == profileId) {
@@ -67,10 +71,6 @@ public class InsuranceSystem {
       }
     }
   }
-
-  // PRINT_DB_CAR_POLICY("\tCar Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
-  // PRINT_DB_HOME_POLICY("\tHome Policy (%s, Sum Insured: $%s, Premium: $%s -> $%s)"),
-  // PRINT_DB_LIFE_POLICY("\tLife Policy (Sum Insured: $%s, Premium: $%s -> $%s)")
 
   public void printDatabase() {
     // Checking if the database has no entries
@@ -105,7 +105,7 @@ public class InsuranceSystem {
         printPolicies(profileDatabase.get(0).getProfileId());
       }
     } else {
-      // This runs if the databsehas more than one entry
+      // This runs if the database has more than one entry
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage(
           Integer.toString(profileDatabase.size()), "s", ":");
       for (int i = 0; i < profileDatabase.size(); i++) {
@@ -182,9 +182,11 @@ public class InsuranceSystem {
   }
 
   public void loadProfile(String userName) {
+    // convert username to title case
     userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
     Profiles currentLoaded = null;
     Profiles toLoad = null;
+    // loop through database to find any currently loaded profiles, or the profile to load
     for (Profiles profile : profileDatabase) {
       if (profile.getLoaded() == true) {
         currentLoaded = profile;
@@ -208,6 +210,8 @@ public class InsuranceSystem {
   }
 
   public void unloadProfile() {
+    // loop through database to find any currently loaded profiles, and unload. Otherwise print
+    // error
     for (Profiles profile : profileDatabase) {
       if (profile.getLoaded() == true) {
         profile.unloadProfile();
@@ -219,7 +223,9 @@ public class InsuranceSystem {
   }
 
   public void deleteProfile(String userName) {
+    // convert username to title case
     userName = userName.substring(0, 1).toUpperCase() + userName.substring(1).toLowerCase();
+    // loop to find the profile to delete, and delete it if it is not loaded. Otherwise print error
     for (Profiles profile : profileDatabase) {
       if (profile.getUsername().equals(userName)) {
         if (profile.getLoaded() == false) {
@@ -236,6 +242,8 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
+    // set sum to the first element in option, and loop through database to find the currently
+    // loaded profile
     int sum = Integer.parseInt(options[0]);
     Profiles currentLoaded = null;
     for (Profiles profile : profileDatabase) {
@@ -244,10 +252,12 @@ public class InsuranceSystem {
       }
     }
     if (currentLoaded == null) {
+      // if no profile is loaded, print error
       MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
       return;
     } else {
       if (type == PolicyType.HOME) {
+        // if the policy is a home policy, create a home policy object and add it to the database
         String address = options[1];
         Boolean rental = false;
         if (options[2].equals("yes")) {
@@ -259,6 +269,7 @@ public class InsuranceSystem {
         policyDatabase.add(homePolicy);
         currentLoaded.addPolicy();
       } else if (type == PolicyType.CAR) {
+        // if the policy is a car policy, create a car policy object and add it to the database
         String makeAndModel = options[1];
         String licensePlate = options[2];
         Boolean breakdown = false;
@@ -278,7 +289,7 @@ public class InsuranceSystem {
         policyDatabase.add(carPolicy);
         currentLoaded.addPolicy();
       } else if (type == PolicyType.LIFE) {
-
+        // if the policy is a life policy, create a life policy object and add it to the database
         if (Integer.parseInt(currentLoaded.getAge()) > 100) {
           MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(currentLoaded.getUsername());
           return;

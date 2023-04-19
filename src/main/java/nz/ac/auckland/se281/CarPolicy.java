@@ -4,6 +4,7 @@ import nz.ac.auckland.se281.Main.PolicyType;
 
 public class CarPolicy extends Policy {
 
+  // defining instance variables specific to the class CarPolicy
   private String makeAndModel;
   private String licensePlate;
   private Boolean breakdown;
@@ -21,6 +22,7 @@ public class CarPolicy extends Policy {
     this.licensePlate = licensePlate;
     this.breakdown = breakdown;
 
+    // checking if age is less or above 25 and calculating base premium for both cases
     if (age < 25) {
       this.basePremium = sum * 0.15;
     } else {
@@ -31,6 +33,7 @@ public class CarPolicy extends Policy {
     }
   }
 
+  // defining getter methods for the instance variables
   public String getMakeAndModel() {
     return makeAndModel;
   }

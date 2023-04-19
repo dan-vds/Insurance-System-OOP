@@ -4,6 +4,7 @@ import nz.ac.auckland.se281.Main.PolicyType;
 
 public class HomePolicy extends Policy {
 
+  // defining instance variables specific to the class HomePolicy
   private String address;
 
   public HomePolicy(PolicyType type, int sum, int policyId, String address, Boolean rental) {
@@ -16,6 +17,7 @@ public class HomePolicy extends Policy {
     }
   }
 
+  // defining getter methods for the instance variables
   public String getAddress() {
     return address;
   }
