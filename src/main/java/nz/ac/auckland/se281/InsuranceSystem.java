@@ -260,7 +260,7 @@ public class InsuranceSystem {
         // if the policy is a home policy, create a home policy object and add it to the database
         String address = options[1];
         Boolean rental = false;
-        if (options[2].equals("yes")) {
+        if ((options[2].toLowerCase()).contains("y")) {
           rental = true;
         }
         HomePolicy homePolicy =
@@ -273,7 +273,7 @@ public class InsuranceSystem {
         String makeAndModel = options[1];
         String licensePlate = options[2];
         Boolean breakdown = false;
-        if (options[3].equals("yes")) {
+        if ((options[3].toLowerCase()).contains("y")) {
           breakdown = true;
         }
         CarPolicy carPolicy =
