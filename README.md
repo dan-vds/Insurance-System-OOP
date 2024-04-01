@@ -1,5 +1,4 @@
 
-# Assignment 1
+# Insurance System
 
-You will find instructions for this assignment on the course website.
-
+This project is an insurance system app which uses classic OOP principles
